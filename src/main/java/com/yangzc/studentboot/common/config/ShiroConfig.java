@@ -1,7 +1,6 @@
 package com.yangzc.studentboot.common.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-
 import com.yangzc.studentboot.login.UserRealm;
 import net.sf.ehcache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
@@ -14,6 +13,9 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +24,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
-
 /**
- * @author yangzc
+ * @author bootdo 1992lcg@163.com
  */
 @Configuration
 public class ShiroConfig {
+    @Value("${spring.redis.host}")
+    private String host;
+    @Value("${spring.redis.password}")
+    private String password;
+    @Value("${spring.redis.port}")
+    private int port;
+    @Value("${spring.redis.timeout}")
+    private int timeout;
 
     @Value("${spring.cache.type}")
     private String cacheType ;
@@ -85,7 +94,12 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //设置realm.
         securityManager.setRealm(userRealm());
-        securityManager.setCacheManager(ehCacheManager());
+        // 自定义缓存实现 使用redis
+        if (Constant.CACHE_TYPE_REDIS.equals(cacheType)) {
+            securityManager.setCacheManager(rediscacheManager());
+        } else {
+            securityManager.setCacheManager(ehCacheManager());
+        }
         securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
@@ -110,9 +124,57 @@ public class ShiroConfig {
         return authorizationAttributeSourceAdvisor;
     }
 
+    /**
+     * 配置shiro redisManager
+     *
+     * @return
+     */
+    @Bean
+    public RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(host);
+        redisManager.setPort(port);
+        //redisManager.setExpire(1800);// 配置缓存过期时间
+        redisManager.setTimeout(1800);
+        redisManager.setPassword(password);
+        return redisManager;
+    }
+
+    /**
+     * cacheManager 缓存 redis实现
+     * 使用的是shiro-redis开源插件
+     *
+     * @return
+     */
+    public RedisCacheManager rediscacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
+        //redis中针对不同用户缓存
+        redisCacheManager.setPrincipalIdFieldName("username");
+        //用户权限信息缓存时间
+        redisCacheManager.setExpire(200000);
+        return redisCacheManager;
+    }
+
+
+    /**
+     * RedisSessionDAO shiro sessionDao层的实现 通过redis
+     * 使用的是shiro-redis开源插件
+     */
+    @Bean
+    public RedisSessionDAO redisSessionDAO() {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        return redisSessionDAO;
+    }
+
     @Bean
     public SessionDAO sessionDAO() {
+        if (Constant.CACHE_TYPE_REDIS.equals(cacheType)) {
+            return redisSessionDAO();
+        } else {
             return new MemorySessionDAO();
+        }
     }
 
     /**
@@ -126,6 +188,10 @@ public class ShiroConfig {
         Collection<SessionListener> listeners = new ArrayList<SessionListener>();
         listeners.add(new BDSessionListener());
         sessionManager.setSessionListeners(listeners);
+        //是否开启删除无效的session对象  默认为true
+        sessionManager.setDeleteInvalidSessions(true);
+        //取消url 后面的 JSESSIONID
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
         return sessionManager;
     }
 
