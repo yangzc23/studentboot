@@ -16,6 +16,33 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `stu_student`
+--
+
+DROP TABLE IF EXISTS `stu_student`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stu_student` (
+  `sno` int(4) NOT NULL AUTO_INCREMENT,
+  `sname` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `gender` char(2) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `birth` date DEFAULT NULL,
+  `photo_url` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`sno`)
+) ENGINE=InnoDB AUTO_INCREMENT=1018 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stu_student`
+--
+
+LOCK TABLES `stu_student` WRITE;
+/*!40000 ALTER TABLE `stu_student` DISABLE KEYS */;
+INSERT INTO `stu_student` VALUES (1013,'刘亦菲','女','1989-10-28','upload/a8e6c5830753402f81dbf69b990be323.jpg'),(1017,'赵六','女','1999-01-01','upload/11fe2afce22a46b5bf069f85b0cf52a9.jpg');
+/*!40000 ALTER TABLE `stu_student` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sys_file`
 --
 
@@ -201,4 +228,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-23  0:12:57
+-- Dump completed on 2019-12-27 22:43:10

@@ -1,9 +1,14 @@
 package com.yangzc.studentboot.student.controller;
 
+import com.yangzc.studentboot.common.domain.ActionResult;
+import com.yangzc.studentboot.student.dao.StudentDOMapper;
+import com.yangzc.studentboot.student.domain.StudentDO;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author: yangzc
@@ -17,9 +22,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class StudentController {
     private String prefix = "student";
 
+    @Autowired
+    StudentDOMapper studentDOMapper;
+
     @GetMapping()
     @RequiresPermissions("stu:list")
     String student() {
         return prefix + "/list";
+    }
+
+    @GetMapping(value = "/welcome")
+    @RequiresPermissions("stu:list")
+    @ResponseBody
+    public ActionResult getStudents() {
+        List<StudentDO> students = studentDOMapper.selectAll();
+        ActionResult result = new ActionResult(students);
+        return result;
     }
 }
