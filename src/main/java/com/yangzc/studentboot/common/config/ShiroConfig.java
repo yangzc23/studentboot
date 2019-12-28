@@ -186,7 +186,7 @@ public class ShiroConfig {
         sessionManager.setGlobalSessionTimeout(tomcatTimeout * 1000);
         sessionManager.setSessionDAO(sessionDAO());
         Collection<SessionListener> listeners = new ArrayList<SessionListener>();
-        listeners.add(new BDSessionListener());
+        listeners.add(new MySessionListener());
         sessionManager.setSessionListeners(listeners);
         //是否开启删除无效的session对象  默认为true
         sessionManager.setDeleteInvalidSessions(true);

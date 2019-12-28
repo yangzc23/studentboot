@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>error</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="favicon.ico"> <link href="/bootstrap/bootstrap.css" rel="stylesheet">
+    <link href="/font-awesome/font-awesome.css" rel="stylesheet">
+    <link href="/animate/animate.css" rel="stylesheet">
+    <link href="/app/style.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+    <div class="middle-box text-center animated fadeInDown">
+        <h1>500</h1>
+        <h3 class="font-bold">服务器内部错误</h3>
+        <div class="error-desc">
+            	服务器好像出错了...<br/>
+            	您可以返回主页看看<br/>
+            	<div th:text="${exception}"></div>
+            	<div th:text="${url}"></div>
+            <a href="/" class="btn btn-primary m-t">主页</a>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="/jquery/jquery.js"></script>
+    <script src="/bootstrap/bootstrap.js"></script>
+</body>
+</html>

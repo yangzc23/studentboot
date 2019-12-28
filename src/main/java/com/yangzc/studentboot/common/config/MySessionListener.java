@@ -5,7 +5,7 @@ import org.apache.shiro.session.SessionListener;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BDSessionListener implements SessionListener {
+public class MySessionListener implements SessionListener {
 
 	private final AtomicInteger sessionCount = new AtomicInteger(0);
 
