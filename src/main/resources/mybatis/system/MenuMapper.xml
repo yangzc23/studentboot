@@ -5,13 +5,13 @@
 
 	<select id="get" resultType="com.yangzc.studentboot.system.domain.MenuDO">
 		select
-		`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_num`,`gmt_create`,`gmt_modified`
+		`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_num`,`create_on`,`update_on`
 		from sys_menu where menu_id = #{value}
 	</select>
 
 	<select id="list" resultType="com.yangzc.studentboot.system.domain.MenuDO">
 		select
-		`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_num`,`gmt_create`,`gmt_modified`
+		`menu_id`,`parent_id`,`name`,`url`,`perms`,`type`,`icon`,`order_num`,`create_on`,`update_on`
 		from sys_menu
 		<where>
 			<if test="menuId != null and menuId != ''"> and menu_id = #{menuId} </if>

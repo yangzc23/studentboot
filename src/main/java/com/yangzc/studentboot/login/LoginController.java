@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -71,8 +72,7 @@ public class LoginController extends BaseController {
 
     @PostMapping("/login")
     @ResponseBody
-    R ajaxLogin(String username, String password, String verify, HttpServletRequest request) {
-
+    R ajaxLogin(String username, String password, String verify, HttpServletRequest request, HttpServletResponse response) {
         try {
             //从session中获取随机数
             String random = (String) request.getSession().getAttribute(RandomValidateCodeUtil.RANDOMCODEKEY);
@@ -115,6 +115,7 @@ public class LoginController extends BaseController {
     @GetMapping(value = "/getVerify")
     public void getVerify(HttpServletRequest request, HttpServletResponse response) {
         try {
+            //Thread.sleep(500);
             response.setContentType("image/jpeg");//设置相应类型,告诉浏览器输出的内容为图片
             response.setHeader("Pragma", "No-cache");//设置响应头信息，告诉浏览器不要缓存此内容
             response.setHeader("Cache-Control", "no-cache");

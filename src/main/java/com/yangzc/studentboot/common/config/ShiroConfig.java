@@ -83,6 +83,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/blog/open/**", "anon");
         filterChainDefinitionMap.put("/**/*.js", "anon");
         filterChainDefinitionMap.put("/**/*.css", "anon");
+        filterChainDefinitionMap.put("/**/*.ico", "anon");
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
@@ -206,6 +207,5 @@ public class ShiroConfig {
     CacheManager cacheManager(){
         return CacheManager.create();
     }
-
 
 }

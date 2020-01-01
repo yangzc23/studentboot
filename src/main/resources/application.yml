@@ -25,9 +25,9 @@ spring:
     restart:
       enabled: true
   cache:
-    type: redis
-#    ehcache:
-#      config: classpath:config/ehcache.xml
+    type: ehcache
+    ehcache:
+      config: classpath:config/ehcache.xml
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
