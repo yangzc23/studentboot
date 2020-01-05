@@ -133,8 +133,7 @@ public class ShiroConfig {
     @Bean
     public RedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
-        redisManager.setHost(host);
-        redisManager.setPort(port);
+        redisManager.setHost(host+":"+port);
         //redisManager.setExpire(1800);// 配置缓存过期时间
         redisManager.setTimeout(1800);
         redisManager.setPassword(password);
@@ -165,6 +164,7 @@ public class ShiroConfig {
     @Bean
     public RedisSessionDAO redisSessionDAO() {
         RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setSessionInMemoryEnabled(true);
         redisSessionDAO.setRedisManager(redisManager());
         return redisSessionDAO;
     }

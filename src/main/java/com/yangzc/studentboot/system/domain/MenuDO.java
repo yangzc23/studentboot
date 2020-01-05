@@ -22,9 +22,9 @@ public class MenuDO implements Serializable {
 	// 排序
 	private Integer orderNum;
 	// 创建时间
-	private Date gmtCreate;
+	private Date createOn;
 	// 修改时间
-	private Date gmtModified;
+	private Date updateOn;
 
 	/**
 	 * 设置：
@@ -141,29 +141,29 @@ public class MenuDO implements Serializable {
 	/**
 	 * 设置：创建时间
 	 */
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
+	public void setCreatOn(Date createOn) {
+		this.createOn = createOn;
 	}
 
 	/**
 	 * 获取：创建时间
 	 */
-	public Date getGmtCreate() {
-		return gmtCreate;
+	public Date getCreateOn() {
+		return createOn;
 	}
 
 	/**
 	 * 设置：修改时间
 	 */
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
+	public void setUpdateOn(Date updateOn) {
+		this.updateOn = updateOn;
 	}
 
 	/**
 	 * 获取：修改时间
 	 */
-	public Date getGmtModified() {
-		return gmtModified;
+	public Date getUpdateOn() {
+		return updateOn;
 	}
 
 	@Override
@@ -177,8 +177,8 @@ public class MenuDO implements Serializable {
 				", type=" + type +
 				", icon='" + icon + '\'' +
 				", orderNum=" + orderNum +
-				", gmtCreate=" + gmtCreate +
-				", gmtModified=" + gmtModified +
+				", createOn=" + createOn +
+				", updateOn=" + updateOn +
 				'}';
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -73,6 +74,7 @@ public class MenuController extends BaseController {
 		if (Constant.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
+		menu.setCreatOn(new Date());
 		if (menuService.save(menu) > 0) {
 			return R.ok();
 		} else {
@@ -87,6 +89,7 @@ public class MenuController extends BaseController {
 		if (Constant.DEMO_ACCOUNT.equals(getUsername())) {
 			return R.error(1, "演示系统不允许修改,完整体验请部署程序");
 		}
+		menu.setUpdateOn(new Date());
 		if (menuService.update(menu) > 0) {
 			return R.ok();
 		} else {

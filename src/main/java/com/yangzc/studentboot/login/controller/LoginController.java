@@ -1,5 +1,6 @@
-package com.yangzc.studentboot.login;
+package com.yangzc.studentboot.login.controller;
 
+import com.yangzc.studentboot.common.annotation.Log;
 import com.yangzc.studentboot.common.config.StudentBootConfig;
 import com.yangzc.studentboot.common.controller.BaseController;
 import com.yangzc.studentboot.common.domain.FileDO;
@@ -70,9 +71,10 @@ public class LoginController extends BaseController {
         return "login";
     }
 
+    @Log("登录")
     @PostMapping("/login")
     @ResponseBody
-    R ajaxLogin(String username, String password, String verify, HttpServletRequest request, HttpServletResponse response) {
+    R ajaxLogin(String username, String password, String verify, HttpServletRequest request) {
         try {
             //从session中获取随机数
             String random = (String) request.getSession().getAttribute(RandomValidateCodeUtil.RANDOMCODEKEY);

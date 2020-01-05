@@ -22,8 +22,8 @@
 			<if test="type != null and type != ''"> and type = #{type} </if>
 			<if test="icon != null and icon != ''"> and icon = #{icon} </if>
 			<if test="orderNum != null and orderNum != ''"> and order_num = #{orderNum} </if>
-			<if test="gmtCreate != null and gmtCreate != ''"> and create_on = #{gmtCreate} </if>
-			<if test="gmtModified != null and gmtModified != ''"> and update_on = #{gmtModified} </if>
+			<if test="createOn != null and createOn != ''"> and create_on = #{createOn} </if>
+			<if test="updateOn != null and updateOn != ''"> and update_on = #{updateOn} </if>
 		</where>
 		<choose>
 			<when test="sort != null and sort.trim() != ''">
@@ -49,8 +49,8 @@
 			<if test="type != null and type != ''"> and type = #{type} </if>
 			<if test="icon != null and icon != ''"> and icon = #{icon} </if>
 			<if test="orderNum != null and orderNum != ''"> and order_num = #{orderNum} </if>
-			<if test="gmtCreate != null and gmtCreate != ''"> and create_on = #{gmtCreate} </if>
-			<if test="gmtModified != null and gmtModified != ''"> and update_on = #{gmtModified} </if>
+			<if test="gmtCreate != null and createOn != ''"> and create_on = #{createOn} </if>
+			<if test="gmtModified != null and updateOn != ''"> and update_on = #{updateOn} </if>
 		</where>
 	</select>
 
@@ -77,8 +77,8 @@
 		#{type},
 		#{icon},
 		#{orderNum},
-		#{gmtCreate},
-		#{gmtModified}
+		#{createOn},
+		#{updateOn}
 		)
 	</insert>
 
@@ -92,8 +92,8 @@
 			<if test="type != null">`type` = #{type}, </if>
 			<if test="icon != null">`icon` = #{icon}, </if>
 			<if test="orderNum != null">`order_num` = #{orderNum}, </if>
-			<if test="gmtCreate != null">`create_on` = #{gmtCreate}, </if>
-			<if test="gmtModified != null">`update_on` = #{gmtModified}</if>
+			<if test="createOn != null">`create_on` = #{createOn}, </if>
+			<if test="updateOn != null">`update_on` = #{updateOn}</if>
 		</set>
 		where menu_id = #{menuId}
 	</update>

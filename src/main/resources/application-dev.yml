@@ -6,6 +6,7 @@ logging:
   level:
     root: info
     com.yangzc.studentboot: debug
+  config: classpath:logback-spring.xml
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
