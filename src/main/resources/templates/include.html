@@ -26,7 +26,17 @@
 	<link href="/chosen/chosen.css" rel="stylesheet">
 	<link href="/app/style.css" th:href="@{/app/style.css}"
 		  rel="stylesheet">
+	<link th:href="@{/ruoyi/ry-ui.css}" rel="stylesheet"/>
 </head>
+
+<!-- jasny功能扩展插件 -->
+<div th:fragment="jasny-bootstrap-css">
+	<link th:href="@{/jasny/jasny-bootstrap.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="jasny-bootstrap-js">
+	<script th:src="@{/jasny/jasny-bootstrap.js}"></script>
+</div>
+
 <div th:fragment="footer">
 	<script src="/jquery/jquery.js"></script>
 	<script src="/jqTreeGrid/jquery.treegrid.js"></script>
@@ -36,13 +46,52 @@
 	<script src="/bootstrap-table/bootstrap-table-mobile.js"></script>
 	<script src="/bootstrap-table/bootstrap-table-zh-CN.js"></script>
 	<script src="/bootstrap-table/bootstrap-table-treegrid.js"></script>
+	<script th:src="@{/bootstrap-table/bootstrap-table-toolbar.js}"></script>
+	<script th:src="@{/bootstrap-table/bootstrap-table-fixed-columns.js}"></script>
+	<!-- jquery-validate 表单验证插件 -->
 	<script src="/validate/jquery.validate.js"></script>
 	<script src="/validate/messages_zh.js"></script>
+<!--
+	<script th:src="@{/validate/jquery.validate.extend.js}"></script>
+-->
+	<!-- jquery-export 表格导出插件 -->
+	<script th:src="@{/bootstrap-table/bootstrap-table-export.js}"></script>
+	<script th:src="@{/bootstrap-table/tableExport.js}"></script>
+	<!-- 遮罩层 -->
+	<script th:src="@{/blockUI/jquery.blockUI.js}"></script>
+	<script th:src="@{/iCheck/icheck.min.js}"></script>
 	<script src="/chosen/chosen.jquery.js"></script>
 	<script src="/layer/layer.js"></script>
 	<script src="/app/content.js"></script>
+	<script th:src="@{/ruoyi/ry-ui.js}"></script>
 	<!--summernote-->
 	<script src="/summernote/summernote.js"></script>
 	<script src="/summernote/summernote-zh-CN.js"></script>
 	<script src="/app/common.js"></script>
+	<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+</div>
+
+<!-- fileinput文件上传插件 -->
+<div th:fragment="bootstrap-fileinput-css">
+	<link th:href="@{/bootstrap-fileinput/fileinput.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="bootstrap-fileinput-js">
+	<script th:src="@{/bootstrap-fileinput/fileinput.js}"></script>
+</div>
+
+<!-- select2下拉框插件 -->
+<div th:fragment="select2-css">
+	<link th:href="@{/select2/select2.css}" rel="stylesheet"/>
+	<link th:href="@{/select2/select2-bootstrap.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="select2-js">
+	<script th:src="@{/select2/select2.js}"></script>
+</div>
+
+<!-- datetimepicker日期和时间插件 -->
+<div th:fragment="datetimepicker-css">
+	<link th:href="@{/bootstrap-datetimepicker/bootstrap-datetimepicker.css}" rel="stylesheet"/>
+</div>
+<div th:fragment="datetimepicker-js">
+	<script th:src="@{/bootstrap-datetimepicker/bootstrap-datetimepicker.js}"></script>
 </div>

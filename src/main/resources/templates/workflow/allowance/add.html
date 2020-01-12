@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-allowance-add">
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>标题：</label>
+                <div class="col-sm-8">
+                    <input name="title" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><span style="color: red; ">*</span>原因：</label>
+                <div class="col-sm-8">
+                    <textarea name="reason" class="form-control" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">补贴金额：</label>
+                <div class="col-sm-8">
+                    <input name="totalMoney" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "workflow/allowance"
+        $("#form-allowance-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-allowance-add').serialize());
+            }
+        }
+
+    </script>
+</body>
+</html>

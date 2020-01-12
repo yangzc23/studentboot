@@ -2,6 +2,7 @@ package com.yangzc.studentboot.common.config;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.yangzc.studentboot.common.utils.StatLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,6 +76,9 @@ public class DruidDBConfig {
     @Value("{spring.datasource.connectionProperties}")
     private String connectionProperties;
 
+//    @Value("${spring.datasource.timeBetweenLogStatsMillis}")
+//    private int timeBetweenLogStatsMillis;
+
     @Bean(initMethod = "init", destroyMethod = "close")   //声明其为Bean实例
     @Primary  //在同样的DataSource中，首先使用被标注的DataSource
     public DataSource dataSource() {
@@ -98,13 +102,14 @@ public class DruidDBConfig {
         datasource.setTestOnReturn(testOnReturn);
         datasource.setPoolPreparedStatements(poolPreparedStatements);
         datasource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
+        //datasource.setTimeBetweenLogStatsMillis(timeBetweenLogStatsMillis);
         try {
             datasource.setFilters(filters);
         } catch (SQLException e) {
             logger.error("druid configuration initialization filter", e);
         }
         datasource.setConnectionProperties(connectionProperties);
-
+        //datasource.setStatLogger(new StatLogger());
         return datasource;
     }
 
@@ -122,7 +127,7 @@ public class DruidDBConfig {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new WebStatFilter());
         filterRegistrationBean.addUrlPatterns("/*");
-        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,*.woff2,/druid/*");
         filterRegistrationBean.addInitParameter("profileEnable", "true");
         filterRegistrationBean.addInitParameter("principalCookieName","USER_COOKIE");
         filterRegistrationBean.addInitParameter("principalSessionName","USER_SESSION");

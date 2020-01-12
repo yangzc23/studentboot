@@ -36,6 +36,8 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     # 合并多个DruidDataSource的监控数据
     #useGlobalDataSourceStat: true
+    # 定期把监控数据输出到日志中
+    # timeBetweenLogStatsMillis: 300000
   redis:
     host: localhost
     port: 6379

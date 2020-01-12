@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yangzc.studentboot.workflow.allowance.mapper.BizAllowanceMapper">
+
+    <resultMap type="BizAllowanceVo" id="BizAllowanceResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="reason"    column="reason"    />
+        <result property="totalMoney"    column="total_money"    />
+        <result property="instanceId"    column="instance_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="applyUser"    column="apply_user"    />
+        <result property="applyTime"    column="apply_time"    />
+    </resultMap>
+
+    <sql id="selectBizAllowanceVo">
+        select id, title, reason, total_money, instance_id, create_by, create_time, update_by, update_time, apply_user, apply_time from biz_allowance
+    </sql>
+
+    <select id="selectBizAllowanceList" parameterType="BizAllowanceVo" resultMap="BizAllowanceResult">
+        <include refid="selectBizAllowanceVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+            <if test="totalMoney != null "> and total_money = #{totalMoney}</if>
+            <if test="instanceId != null  and instanceId != ''"> and instance_id = #{instanceId}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+        </where>
+    </select>
+
+    <select id="selectBizAllowanceById" parameterType="Long" resultMap="BizAllowanceResult">
+        <include refid="selectBizAllowanceVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBizAllowance" parameterType="BizAllowanceVo" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_allowance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">title,</if>
+            <if test="reason != null  and reason != ''">reason,</if>
+            <if test="totalMoney != null ">total_money,</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateBy != null  and updateBy != ''">update_by,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="reason != null  and reason != ''">#{reason},</if>
+            <if test="totalMoney != null ">#{totalMoney},</if>
+            <if test="instanceId != null  and instanceId != ''">#{instanceId},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">#{updateBy},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizAllowance" parameterType="BizAllowanceVo">
+        update biz_allowance
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="reason != null  and reason != ''">reason = #{reason},</if>
+            <if test="totalMoney != null ">total_money = #{totalMoney},</if>
+            <if test="instanceId != null  and instanceId != ''">instance_id = #{instanceId},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="applyUser != null ">apply_user = #{applyUser},</if>
+            <if test="applyTime != null ">apply_time = #{applyTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizAllowanceById" parameterType="Long">
+        delete from biz_allowance where id = #{id}
+    </delete>
+
+    <delete id="deleteBizAllowanceByIds" parameterType="String">
+        delete from biz_allowance where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

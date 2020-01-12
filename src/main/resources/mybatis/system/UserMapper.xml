@@ -3,8 +3,12 @@
 
 <mapper namespace="com.yangzc.studentboot.system.dao.UserDao">
 
+    <select id="selectUserByLoginName" parameterType="String" resultType="com.yangzc.studentboot.system.domain.UserDO">
+        select `user_id`,`username`,`name`,`password`,`dept_id`,`email`,`mobile`,`status`,`create_by`,`create_on`,`update_on`,`gender`,`birth`,`pic_id`,`live_address`,`hobby`,`province`,`city`,`district` from sys_user where username = #{userName}
+    </select>
+
     <select id="get" resultType="com.yangzc.studentboot.system.domain.UserDO">
-		select `user_id`,`username`,`name`,`password`,`dept_id`,`email`,`mobile`,`status`,`user_id_create`,`gmt_create`,`gmt_modified`,`sex`,`birth`,`pic_id`,`live_address`,`hobby`,`province`,`city`,`district` from sys_user where user_id = #{value}
+		select `user_id`,`username`,`name`,`password`,`dept_id`,`email`,`mobile`,`status`,`create_by`,`create_on`,`update_on`,`gender`,`birth`,`pic_id`,`live_address`,`hobby`,`province`,`city`,`district` from sys_user where user_id = #{value}
 	</select>
 
     <select id="list" resultType="com.yangzc.studentboot.system.domain.UserDO">
