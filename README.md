@@ -11,6 +11,16 @@ Demo project for Spring Boot
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20191225235421860.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3MjUxODk3,size_16,color_FFFFFF,t_70)
 
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200112115616236.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3MjUxODk3,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200112222543740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3MjUxODk3,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200112224817764.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3MjUxODk3,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200112233603848.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3MjUxODk3,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200112233934296.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3MjUxODk3,size_16,color_FFFFFF,t_70)
+
 ### 登录功能涉及的5张数据表
 1）用户表
 2）角色表
