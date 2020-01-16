@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <th:block th:include="include :: header('流程模型列表')" />
+    <th:block th:include="include :: header" />
 </head>
 <body class="gray-bg">
      <div class="container-div">
@@ -40,7 +40,7 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="process:todoitem:export">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="workflow:model:list">
                     <i class="fa fa-plus"></i> 创建新模型
                  </a>
             </div>
@@ -51,12 +51,11 @@
     </div>
     <th:block th:include="include :: footer" />
     <script th:inline="javascript">
-        var removeFlag = [[${@permission.hasPermi('process:todoitem:remove')}]];
-        var prefix = ctx + "process/modeler";
+        var prefix = ctx + "workflow/model";
 
         $(function() {
             var options = {
-                url: prefix + "/list",
+                url: prefix + "/data",
                 createUrl: prefix + "/addModal",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
@@ -109,14 +108,6 @@
             $.table.init(options);
         });
 
-        function showVerifyDialog(taskId, module, pageName, nodeName, todoUserId) {
-            if (todoUserId !== currentUser.loginName) {
-                $.modal.alertWarning("不允许非待办人办理待办事项！");
-                return;
-            }
-            var url = prefix + "/showVerifyDialog/" + taskId + "?module=" + module + "&formPageName=" + pageName;
-            $.modal.open(nodeName, url);
-        }
 
         function export2Bpmn(modelId) {
             // $.operate.submit(prefix + "/export/" + modelId, "get", "", "");
@@ -147,15 +138,15 @@
             var topWindow = $(window.parent.document);
             // 选项卡菜单不存在
             if (flag) {
-                var str = '<a href="javascript:;" class="active menuTab" data-id="' + dataUrl + '" data-panel="' + panelUrl + '">' + menuName + ' <i class="fa fa-times-circle"></i></a>';
-                $('.menuTab', topWindow).removeClass('active');
+                var str = '<a href="javascript:;" class="active J_menuTab" data-id="' + dataUrl + '" data-panel="' + panelUrl + '">' + menuName + ' <i class="fa fa-times-circle"></i></a>';
+                $('.J_menuTab', topWindow).removeClass('active');
 
                 // 添加选项卡对应的iframe
-                var str1 = '<iframe class="RuoYi_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" data-panel="' + panelUrl + '" seamless></iframe>';
-                $('.mainContent', topWindow).find('iframe.RuoYi_iframe').hide().parents('.mainContent').append(str1);
+                var str1 = '<iframe class="J_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" data-panel="' + panelUrl + '" seamless></iframe>';
+                $('.J_mainContent', topWindow).find('iframe.J_iframe').hide().parents('.J_mainContent').append(str1);
 
                 // 添加选项卡
-                $('.menuTabs .page-tabs-content', topWindow).append(str);
+                $('.J_menuTabs .page-tabs-content', topWindow).append(str);
             }
             return false;
         }

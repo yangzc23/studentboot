@@ -871,7 +871,7 @@
             // 添加访问地址
             addUrl: function(id) {
             	var url = $.common.isEmpty(id) ? $.table._option.createUrl.replace("{id}", "") : $.table._option.createUrl.replace("{id}", id);
-                return url;
+            	return url;
             },
             // 修改信息
             edit: function(id) {

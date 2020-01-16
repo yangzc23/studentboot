@@ -63,7 +63,7 @@ public class ModelEditorJsonRestResource extends BaseController implements Model
 
   protected static final Logger logger = LoggerFactory.getLogger(ModelEditorJsonRestResource.class);
 
-  private static final String PREFIX = "/modeler";
+  private static final String PREFIX = "/model";
 
   @Autowired
   private RepositoryService repositoryService;
@@ -107,12 +107,12 @@ public class ModelEditorJsonRestResource extends BaseController implements Model
 //        return new ModelAndView("/process" + PREFIX + "/modelList");
 //    }
 
-    @RequestMapping("/process/modeler/modelList")
+    @RequestMapping("/workflow/model/list")
     public String modelList(HttpServletRequest request) {
-        return "process" + PREFIX + "/modelList";
+        return "workflow" + PREFIX + "/modelList";
     }
 
-    @PostMapping("/process/modeler/list")
+    @PostMapping("/workflow/model/data")
     @ResponseBody
     public TableDataInfo list(ModelEntityImpl modelEntity) {
         ModelQuery modelQuery = repositoryService.createModelQuery();
@@ -147,15 +147,15 @@ public class ModelEditorJsonRestResource extends BaseController implements Model
 //        return new ModelAndView("/process" + PREFIX + "/modelModal");
 //    }
 
-    @GetMapping("/process/modeler/addModal")
+    @GetMapping("/workflow/model/addModal")
     public String addModal() {
-        return "process" + PREFIX + "/modelModal";
+        return "workflow" + PREFIX + "/modelModal";
     }
 
     /**
      * 创建模型
      */
-    @RequestMapping(value = "/process/modeler/create")
+    @RequestMapping(value = "/workflow/model/create")
     @ResponseBody
     public AjaxResult create(@RequestParam("name") String name, @RequestParam("key") String key,
                              @RequestParam(value = "description", required = false) String description) {
@@ -192,7 +192,7 @@ public class ModelEditorJsonRestResource extends BaseController implements Model
     /**
      * 根据Model部署流程
      */
-    @RequestMapping(value = "/process/modeler/deploy/{modelId}")
+    @RequestMapping(value = "/workflow/model/deploy/{modelId}")
     @ResponseBody
     public AjaxResult deploy(@PathVariable("modelId") String modelId, RedirectAttributes redirectAttributes) {
         try {
@@ -217,7 +217,7 @@ public class ModelEditorJsonRestResource extends BaseController implements Model
     /**
      * 导出model的xml文件
      */
-    @RequestMapping(value = "/process/modeler/export/{modelId}")
+    @RequestMapping(value = "/workflow/model/export/{modelId}")
     public void export(@PathVariable("modelId") String modelId, HttpServletResponse response) {
         try {
             Model modelData = repositoryService.getModel(modelId);
@@ -237,7 +237,7 @@ public class ModelEditorJsonRestResource extends BaseController implements Model
                 response.flushBuffer();
             } else {
                 try {
-                    response.sendRedirect("/process/modeler/modelList");
+                    response.sendRedirect("/workflow/model/list");
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -246,7 +246,7 @@ public class ModelEditorJsonRestResource extends BaseController implements Model
         } catch (Exception e) {
             logger.error("导出model的xml文件失败：modelId={}", modelId, e);
             try {
-                response.sendRedirect("/process/modeler/modelList");
+                response.sendRedirect("/workflow/model/list");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -254,7 +254,7 @@ public class ModelEditorJsonRestResource extends BaseController implements Model
     }
 
     @Log("删除流程模型")
-    @PostMapping("/process/modeler/remove")
+    @PostMapping("/workflow/model/remove")
     @ResponseBody
     public AjaxResult remove(String ids) {
         try {
