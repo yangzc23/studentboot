@@ -1,7 +1,11 @@
 package com.yangzc.studentboot.student.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class StudentDO implements Serializable {
     private Integer sno;
@@ -10,6 +14,8 @@ public class StudentDO implements Serializable {
 
     private String gender;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date birth;
 
     private String photoUrl;
@@ -41,6 +47,7 @@ public class StudentDO implements Serializable {
     }
 
     public Date getBirth() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+08"));
         return birth;
     }
 

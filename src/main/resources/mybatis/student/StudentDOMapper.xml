@@ -38,4 +38,25 @@
     select sno, sname, gender, birth, photo_url
     from stu_student
   </select>
+
+  <select id="count" resultType="int">
+    select count(*) from stu_student
+  </select>
+
+  <select id="list" resultType="com.yangzc.studentboot.student.domain.StudentDO">
+    select sno, sname, gender, birth, photo_url
+    from stu_student
+    <choose>
+      <when test="sort != null and sort.trim() != ''">
+        order by ${sort} ${order}
+      </when>
+      <otherwise>
+        order by sno desc
+      </otherwise>
+    </choose>
+    <if test="begin != null and rows != null">
+      limit #{begin}, #{rows}
+    </if>
+  </select>
+
 </mapper>

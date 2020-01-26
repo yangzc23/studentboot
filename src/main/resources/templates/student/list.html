@@ -1,15 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>学生管理系统</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/bootstrap-datetimepicker/bootstrap-datetimepicker.css"/>
+    <link rel="stylesheet" href="/bootstrap-table/bootstrap-table.css">
+    <link rel="stylesheet" href="/bootstrap-fileinput/fileinput.css">
+    <link rel="stylesheet" href="/bootstrap-fileinput/fileinput-rtl.css">
+    <script src="/jquery/jquery.js"></script>
+    <script src="/bootstrap/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/bootstrap-datetimepicker/bootstrap-datetimepicker.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/bootstrap-table/bootstrap-table.js"></script>
+    <script src="/bootstrap-table/bootstrap-table-zh-CN.js"></script>
+    <script src="/bootstrap-fileinput/fileinput.js"></script>
+    <script src="/bootstrap-fileinput/zh.js"></script>
+    <script src="/app/FileSaver.js"></script>
+    <script src="/app/student.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('.form_date').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+            });
+
+            initMainTable();
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#input-b9").fileinput({
+                showPreview: false,
+                showUpload: true,
+                elErrorContainer: '#kartik-file-errors',
+                allowedFileExtensions: ["xls","xlsx"],
+                uploadUrl: 'import'
+            });
+        });
+    </script>
 </head>
-<body>
-<div class="panel panel-default">
-    <div class="panel-heading">学生信息</div>
-    <div style="padding: 10px 0 20px 10px;">
-        <h3>&nbsp;&nbsp;&nbsp;Hello Student</h3>
+<body class="bg-info">
+<div>
+    <table id="grid" class="table" data-toolbar=".toolbar"></table>
+</div>
+<div id="toolbar" class="toolbar">
+    <button type="button" class="btn btn-primary" onclick="add();">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        <span class="glyphicon glyphicon-import" aria-hidden="true"></span> 导入
+    </button>
+    <button type="button" class="btn btn-primary" onclick="exportData();">
+        <span class="glyphicon glyphicon-export" aria-hidden="true"></span> 导出
+    </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="file-loading">
+                    <input id="input-b9" name="file" multiple type="file">
+                </div>
+                <div id="kartik-file-errors"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" title="Your custom upload logic">Save</button>
+            </div>
+        </div>
     </div>
 </div>
+
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="subject"></h3>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="register">
+                    <div class="form-group" id="first">
+                        <label for="sid">学号</label>
+                        <input type="text" class="form-control" id="sid" name="sno" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="sname">姓名</label>
+                        <input type="text" class="form-control" id="sname" name="sname" placeholder="请输入姓名">
+                    </div>
+                    <label>性別</label>
+                    <div class="form-group">
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" id="male" value="1" checked> 靓仔
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="gender" id="female" value="0"> 美女
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="birth">生日</label>
+                        <div class="input-group date form_date" data-date="" data-date-format="yyyy MM dd" data-link-field="birth" data-link-format="yyyy-mm-dd">
+                            <input name="birth" id="birth" class="form-control" type="text" value="" readonly>
+                            <span class="input-group-addon">
+							<span class="glyphicon glyphicon-remove"></span>
+						</span>
+                            <span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="photo">上传头像</label>
+                        <input type="file" id="photo" name="photo">
+                        <p class="help-block">请上传jpg或者png格式的文件！</p>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-default" onclick="upload();">
+                            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传
+                        </button>
+                    </div>
+                    <div hidden="hidden">
+                        <input type="text" name="photoUrl" id="filePath" value="/img/default.png"/>
+                    </div>
+                    <div class="form-group">
+                        <img width="120" height="120" src="/img/default.png" id="photo2"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="save();">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 </body>
 </html>

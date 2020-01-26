@@ -8,7 +8,7 @@
     <sequenceFlow id="_5" name="发起申请" sourceRef="begin" targetRef="selfVerify"/>
     <userTask activiti:exclusive="true" id="leaderVerify" name="主管审核">
       <extensionElements>
-        <activiti:taskListener event="create" class="com.ruoyi.process.allowance.listener.MyTaskListener">
+        <activiti:taskListener event="create" class="com.yangzc.studentboot.workflow.allowance.listener.MyTaskListener">
 		</activiti:taskListener>
       </extensionElements>
     </userTask>
