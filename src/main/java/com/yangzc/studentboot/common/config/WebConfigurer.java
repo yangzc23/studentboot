@@ -14,8 +14,9 @@ class WebConfigurer implements WebMvcConfigurer {
 		registry.addResourceHandler("/files/**").addResourceLocations("file:"+studentBootConfig.getUploadPath());
 		registry.addResourceHandler("swagger-ui.html").
 				addResourceLocations("classpath:/META-INF/resources/");//swagger的html文件
+		registry.addResourceHandler("doc.html").
+				addResourceLocations("classpath:/META-INF/resources/");
 		registry.addResourceHandler("/webjars/**").
 				addResourceLocations("classpath:/META-INF/resources/webjars/");//swagger的js和css文件
 	}
-
 }

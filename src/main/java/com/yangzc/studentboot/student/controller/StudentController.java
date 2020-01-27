@@ -1,11 +1,9 @@
 package com.yangzc.studentboot.student.controller;
-
-import com.yangzc.studentboot.common.annotation.ApiJsonObject;
-import com.yangzc.studentboot.common.annotation.ApiJsonProperty;
 import com.yangzc.studentboot.common.domain.ActionResult;
 import com.yangzc.studentboot.common.utils.DownloadUtil;
 import com.yangzc.studentboot.student.dao.StudentDOMapper;
 import com.yangzc.studentboot.student.domain.StudentDO;
+import com.yangzc.studentboot.student.vo.QueryVO;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -49,7 +47,8 @@ public class StudentController {
     @Autowired
     StudentDOMapper studentDOMapper;
 
-    @GetMapping()
+    @GetMapping(value="/", produces = MediaType.TEXT_HTML_VALUE)
+    @ApiOperation(value = "学生列表页面", notes = "返回学生列表页面")
     @RequiresPermissions("stu:list")
     String student() {
         return prefix + "/list";
@@ -57,16 +56,10 @@ public class StudentController {
 
 
     @PostMapping(value = "/welcome", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "学生列表", notes = "根据指定的页码和行数返回学生列表")
+    @ApiOperation(value = "学生集合", notes = "根据指定的开始行和行数返回学生集合", consumes = MediaType.APPLICATION_JSON_VALUE)
     @RequiresPermissions("stu:list")
     @ResponseBody
-    public ActionResult getStudents(@ApiJsonObject(name = "params", value = {
-            @ApiJsonProperty(key = "page", example = "1", description = "页码"),
-            @ApiJsonProperty(key = "rows", example = "5", description = "行数"),
-            @ApiJsonProperty(key = "begin", example = "0", description = "开始"),
-            @ApiJsonProperty(key = "sort", example = "sno", description = "排序字段"),
-            @ApiJsonProperty(key = "order", example = "desc", description = "排序"),
-    }) @RequestBody Map<String,Object> params) {
+    public ActionResult getStudents(@RequestBody QueryVO params) {
         Map<String,Object> data = new HashMap<String,Object>();
         data.put("total",studentDOMapper.count());
         List<StudentDO> students = studentDOMapper.list(params);
@@ -162,7 +155,8 @@ public class StudentController {
      * 导出学生列表
      * @return
      */
-    @PostMapping(value = "/export")
+    @PostMapping(value = "/export", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ApiOperation(value = "导出学生列表", notes = "导出学生列表")
     @ResponseBody
     public ActionResult export(){
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -275,9 +269,11 @@ public class StudentController {
      * @return
      * @throws Exception
      */
-    @PostMapping("import")
+    @PostMapping(value = "import", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiImplicitParam(name = "file", value = "Excel文件", dataType = "__file", required = true, paramType = "form")
+    @ApiOperation(value = "导入学生列表", notes = "导入学生列表")
     @ResponseBody
-    public ActionResult upload(@PathVariable("file") MultipartFile file) throws Exception {
+    public ActionResult upload(@RequestParam("file") MultipartFile file) throws Exception {
         HSSFWorkbook hssfWorkbook = new HSSFWorkbook(file.getInputStream());
         List<StudentDO> getData = readOldExcel(hssfWorkbook);
         if (getData == null) {

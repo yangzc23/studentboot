@@ -1,6 +1,8 @@
 package com.yangzc.studentboot.student.dao;
 
 import com.yangzc.studentboot.student.domain.StudentDO;
+import com.yangzc.studentboot.student.vo.QueryVO;
+
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +17,7 @@ public interface StudentDOMapper {
 
     int updateByPrimaryKey(StudentDO record);
 
-    List<StudentDO> list(Map<String, Object> map);
+    List<StudentDO> list(QueryVO queryVO);
 
     int count();
 }
