@@ -65,7 +65,7 @@ function load() {
                     },
                     {
                         field: 'username',
-                        title: '用户名'
+                        title: '用户名',
                     },
                     {
                         field: 'operation',
@@ -77,7 +77,9 @@ function load() {
                     },
                     {
                         field: 'method',
-                        title: '方法'
+                        title: '方法',
+                        width: '150px',
+                        visible: false
                     },
                     {
                         field: 'params',

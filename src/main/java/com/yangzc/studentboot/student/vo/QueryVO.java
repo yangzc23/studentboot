@@ -1,9 +1,11 @@
 package com.yangzc.studentboot.student.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
+@ApiModel(value = "QueryConditions", description = "查询条件")
 public class QueryVO implements Serializable {
     @ApiModelProperty(value = "页码", name = "page", example = "1")
     private int page;

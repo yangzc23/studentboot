@@ -1,6 +1,7 @@
 package com.yangzc.studentboot.student.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.TimeZone;
 
+@ApiModel(value = "Student", description = "学生信息")
 public class StudentDO implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -1,9 +1,11 @@
 package com.yangzc.studentboot.student.controller;
+import com.yangzc.studentboot.common.annotation.Log;
 import com.yangzc.studentboot.common.domain.ActionResult;
 import com.yangzc.studentboot.common.utils.DownloadUtil;
 import com.yangzc.studentboot.student.dao.StudentDOMapper;
 import com.yangzc.studentboot.student.domain.StudentDO;
 import com.yangzc.studentboot.student.vo.QueryVO;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -36,6 +39,7 @@ import java.util.*;
  * @Modified By:
  */
 
+@Api(value = "/stu/list", tags = {"学生管理接口"}, description = "学生管理模块功能说明")
 @Controller
 @RequestMapping("/stu/list")
 public class StudentController {
@@ -47,16 +51,17 @@ public class StudentController {
     @Autowired
     StudentDOMapper studentDOMapper;
 
-    @GetMapping(value="/", produces = MediaType.TEXT_HTML_VALUE)
+    @Log("访问学生列表页面")
     @ApiOperation(value = "学生列表页面", notes = "返回学生列表页面")
+    @GetMapping(value="/", produces = MediaType.TEXT_HTML_VALUE)
     @RequiresPermissions("stu:list")
     String student() {
         return prefix + "/list";
     }
 
 
-    @PostMapping(value = "/welcome", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "学生集合", notes = "根据指定的开始行和行数返回学生集合", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/welcome", produces = MediaType.APPLICATION_JSON_VALUE)
     @RequiresPermissions("stu:list")
     @ResponseBody
     public ActionResult getStudents(@RequestBody QueryVO params) {
@@ -73,6 +78,7 @@ public class StudentController {
      * @param sid
      * @return
      */
+    @Log("编辑学生")
     @GetMapping(value = "/edit/{sid}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "学生信息加载", notes = "根据学号获取该学生的信息")
     @ApiImplicitParam(name = "sid", value = "学号", dataType = "int", paramType = "path", example = "1001")
@@ -90,17 +96,18 @@ public class StudentController {
      * @param stu
      * @return
      */
-    @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Log("保存学生")
     @ApiOperation(value = "学生信息保存", notes = "将输入的学生信息保存到数据库")
+    @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ActionResult saveStudent(StudentDO stu){
         ActionResult result = null;
-        if(stu.getSno()==null||stu.getSno()==0){
+        if(stu.getSno()==null){
             studentDOMapper.insert(stu);
         } else {
             studentDOMapper.updateByPrimaryKey(stu);
         }
-        result = ActionResult.ok();
+        result = ActionResult.ok(studentDOMapper.selectByPrimaryKey(stu.getSno()));
         return result;
     }
 
@@ -110,6 +117,7 @@ public class StudentController {
      * @param sid
      * @return
      */
+    @Log("删除学生")
     @ApiOperation(value = "删除学生信息", notes = "根据学号删除该学生的信息")
     @ApiImplicitParam(name = "sid", value = "学号", dataType = "int", paramType = "path", example = "1001")
     @DeleteMapping(value = "/delete/{sid}",  produces = MediaType.APPLICATION_JSON_VALUE)
@@ -128,6 +136,7 @@ public class StudentController {
      * @param req
      * @return
      */
+    @Log("上传图片")
     @ApiOperation(value = "头像上传", notes = "文件上传")
     @ApiImplicitParam(name = "source", value = "图片", dataType = "__file", required = true, paramType = "form")
     @PostMapping(value = "/upload/file", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -155,6 +164,7 @@ public class StudentController {
      * 导出学生列表
      * @return
      */
+    @Log("导出学生")
     @PostMapping(value = "/export", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ApiOperation(value = "导出学生列表", notes = "导出学生列表")
     @ResponseBody
@@ -269,6 +279,7 @@ public class StudentController {
      * @return
      * @throws Exception
      */
+    @Log("导入学生")
     @PostMapping(value = "import", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiImplicitParam(name = "file", value = "Excel文件", dataType = "__file", required = true, paramType = "form")
     @ApiOperation(value = "导入学生列表", notes = "导入学生列表")
