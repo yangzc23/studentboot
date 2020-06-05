@@ -84,6 +84,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**/*.js", "anon");
         filterChainDefinitionMap.put("/**/*.css", "anon");
         filterChainDefinitionMap.put("/**/*.ico", "anon");
+        filterChainDefinitionMap.put("/doc.html", "anon");
+        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
+        filterChainDefinitionMap.put("/v2/api-docs", "anon");
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

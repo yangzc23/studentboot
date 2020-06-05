@@ -9,6 +9,8 @@ import com.yangzc.studentboot.common.service.FileService;
 import com.yangzc.studentboot.common.utils.*;
 import com.yangzc.studentboot.system.domain.MenuDO;
 import com.yangzc.studentboot.system.service.MenuService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -16,6 +18,7 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+@Api(tags = {"登录接口"}, description = "登录接口")
 @Controller
 public class LoginController extends BaseController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -71,7 +75,8 @@ public class LoginController extends BaseController {
     }
 
     @Log("登录")
-    @PostMapping("/login")
+    @ApiOperation(value = "登录", notes = "登录")
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     R ajaxLogin(String username, String password, String verify, HttpServletRequest request) {
         try {
@@ -99,6 +104,7 @@ public class LoginController extends BaseController {
         }
     }
 
+    @ApiOperation(value = "退出", notes = "退出")
     @GetMapping("/logout")
     String logout() {
         ShiroUtils.logout();
@@ -113,7 +119,8 @@ public class LoginController extends BaseController {
     /**
      * 生成验证码
      */
-    @GetMapping(value = "/getVerify")
+    @ApiOperation(value = "验证码", notes = "验证码图片")
+    @GetMapping(value = "/getVerify", produces = MediaType.IMAGE_JPEG_VALUE)
     public void getVerify(HttpServletRequest request, HttpServletResponse response) {
         try {
             //Thread.sleep(500);
