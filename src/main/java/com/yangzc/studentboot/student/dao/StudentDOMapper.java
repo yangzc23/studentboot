@@ -13,6 +13,10 @@ public interface StudentDOMapper {
 
     StudentDO selectByPrimaryKey(Integer sno);
 
+    List<StudentDO> selectByPhone(String phone);
+
+    List<StudentDO> selectByPhoneAndSno(String phone, Integer sno);
+
     List<StudentDO> selectAll();
 
     int updateByPrimaryKey(StudentDO record);

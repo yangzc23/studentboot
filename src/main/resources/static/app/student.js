@@ -60,6 +60,10 @@ function initMainTable() {	//初始化bootstrap-table的内容
             field: 'birth',
             title: '生日'
         }, {
+            field: 'phone',
+            title: '手机号',
+            sortable: true
+        }, {
             field:'sno',
             title: '操作',
             width: 120,
@@ -153,6 +157,7 @@ function edit(sid){
                 }
                 //$("#birth").val(stu.birth);
                 $('.form_date').datetimepicker("setDate", new Date(stu.birth));
+                $("#phone").val(stu.phone);
                 $("#filePath").val(stu.photoUrl);
                 $("#photo2").attr("src",stu.photoUrl);
                 $('#edit').modal('show');

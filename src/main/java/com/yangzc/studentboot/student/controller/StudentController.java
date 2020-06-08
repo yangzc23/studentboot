@@ -14,11 +14,14 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -31,6 +34,7 @@ import java.io.*;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: yangzc
@@ -43,6 +47,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/stu/list")
 public class StudentController {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private String prefix = "student";
 
     @Value("${studentboot.uploadPath}")
@@ -50,6 +56,9 @@ public class StudentController {
 
     @Autowired
     StudentDOMapper studentDOMapper;
+
+    @Autowired
+    RedissonClient redissonClient;
 
     @Log("访问学生列表页面")
     @ApiOperation(value = "学生列表页面", notes = "返回学生列表页面")
@@ -101,10 +110,50 @@ public class StudentController {
     @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ActionResult saveStudent(StudentDO stu){
-        ActionResult result = null;
+        ActionResult result = new ActionResult();
+
         if(stu.getSno()==null){
-            studentDOMapper.insert(stu);
+            String lockKey = "student:phone:"+stu.getPhone();
+            RLock lock = redissonClient.getLock(lockKey);
+            boolean res = false;
+            try {
+                //获取锁等待超时时间为5s,锁租期为60s
+                res = lock.tryLock(5, 60, TimeUnit.SECONDS);
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+            if (!res) {
+                logger.info("获取锁超时 res: {}", res);
+                result.setStatus(-2);
+                result.setMsg("该学生正在新增中，请稍后再试...");
+                return result;
+            }
+
+            try {
+                List<StudentDO> list = studentDOMapper.selectByPhone(stu.getPhone());
+                if(list!=null&&list.size()>0){
+                    result = ActionResult.build(-1, "手机号码重复，添加失败");
+                    return result;
+                }
+                studentDOMapper.insert(stu);
+            } finally {
+                //超过leaseTime锁自动释放，导致unlock方法失效
+                try {
+                    if (lock.isHeldByCurrentThread() && lock.isLocked()) {
+                        lock.unlock();
+                        logger.info("释放锁");
+                    }
+                } catch (Exception e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
+
         } else {
+            List<StudentDO> list = studentDOMapper.selectByPhoneAndSno(stu.getPhone(), stu.getSno());
+            if(list!=null&&list.size()>0){
+                result = ActionResult.build(-1, "手机号码重复，修改失败");
+                return result;
+            }
             studentDOMapper.updateByPrimaryKey(stu);
         }
         result = ActionResult.ok(studentDOMapper.selectByPrimaryKey(stu.getSno()));

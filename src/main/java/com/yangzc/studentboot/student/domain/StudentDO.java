@@ -28,6 +28,9 @@ public class StudentDO implements Serializable {
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date birth;
 
+    @ApiModelProperty(value = "手机号", name = "phone", required = true, example = "17721038951")
+    private String phone;
+
     @ApiModelProperty(value = "图片访问路径", name = "photoUrl", required = true, example = "/files/123.jpg")
     private String photoUrl;
 
@@ -70,6 +73,14 @@ public class StudentDO implements Serializable {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl == null ? null : photoUrl.trim();
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override

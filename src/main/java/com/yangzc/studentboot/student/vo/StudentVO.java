@@ -23,6 +23,9 @@ public class StudentVO implements Serializable {
     @ApiModelProperty(value = "生日", name = "birth", required = true, example = "1999-01-01")
     private String birth;
 
+    @ApiModelProperty(value = "手机号", name = "phone", required = true, example = "17721038951")
+    private String phone;
+
     @ApiModelProperty(value = "图片访问路径", name = "filePath", required = true, example = "upload/123.jpg")
     private String filePath;
 
@@ -75,5 +78,13 @@ public class StudentVO implements Serializable {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

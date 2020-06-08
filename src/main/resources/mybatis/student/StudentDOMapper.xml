@@ -6,6 +6,7 @@
     <result column="sname" jdbcType="VARCHAR" property="sname" />
     <result column="gender" jdbcType="CHAR" property="gender" />
     <result column="birth" jdbcType="DATE" property="birth" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="photo_url" jdbcType="VARCHAR" property="photoUrl" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -16,26 +17,37 @@
     <selectKey keyProperty="sno" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into stu_student (sname, gender, birth, 
+    insert into stu_student (sname, gender, birth, phone,
       photo_url)
-    values (#{sname,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, #{birth,jdbcType=DATE}, 
-      #{photoUrl,jdbcType=VARCHAR})
+    values (#{sname,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, #{birth,jdbcType=DATE},
+    #{phone,jdbcType=VARCHAR}, #{photoUrl,jdbcType=VARCHAR})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.yangzc.studentboot.student.domain.StudentDO">
     update stu_student
     set sname = #{sname,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=CHAR},
       birth = #{birth,jdbcType=DATE},
+      phone = #{phone,jdbcType=VARCHAR},
       photo_url = #{photoUrl,jdbcType=VARCHAR}
     where sno = #{sno,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select sno, sname, gender, birth, photo_url
+    select sno, sname, gender, birth, phone, photo_url
     from stu_student
     where sno = #{sno,jdbcType=INTEGER}
   </select>
+  <select id="selectByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select sno, sname, gender, birth, phone, photo_url
+    from stu_student
+    where phone = #{phone,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPhoneAndSno" resultMap="BaseResultMap">
+    select sno, sname, gender, birth, phone, photo_url
+    from stu_student
+    where phone = #{phone,jdbcType=VARCHAR} and sno != #{sno,jdbcType=INTEGER}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select sno, sname, gender, birth, photo_url
+    select sno, sname, gender, birth, phone, photo_url
     from stu_student
   </select>
 
@@ -44,7 +56,7 @@
   </select>
 
   <select id="list" resultType="com.yangzc.studentboot.student.domain.StudentDO">
-    select sno, sname, gender, birth, photo_url
+    select sno, sname, gender, birth, phone, photo_url
     from stu_student
     <choose>
       <when test="sort != null and sort.trim() != ''">
