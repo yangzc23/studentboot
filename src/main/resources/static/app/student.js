@@ -185,10 +185,12 @@ function save(){
                 //$("#photo2").attr("src","images/default.png");
                 //alert(data.message);
                 $table.bootstrapTable('refresh');
+            } else {
+                layer.msg(data.msg);
             }
         },
         error : function() {
-            alert("异常！");
+            layer.alert("异常！");
         }
     });
 }

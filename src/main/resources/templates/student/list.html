@@ -17,6 +17,7 @@
     <script src="/bootstrap-fileinput/fileinput.js"></script>
     <script src="/bootstrap-fileinput/zh.js"></script>
     <script src="/app/FileSaver.js"></script>
+    <script src="/layer/layer.js"></script>
     <script src="/app/student.js"></script>
     <script type="text/javascript">
         $(function(){
@@ -97,55 +98,69 @@
                 <h3 class="modal-title" id="subject"></h3>
             </div>
             <div class="modal-body">
-                <form role="form" id="register">
+                <form role="form" id="register" class="form-horizontal">
                     <div class="form-group" id="first">
-                        <label for="sid">学号</label>
-                        <input type="text" class="form-control" id="sid" name="sno" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="sname">姓名</label>
-                        <input type="text" class="form-control" id="sname" name="sname" placeholder="请输入姓名">
-                    </div>
-                    <label>性別</label>
-                    <div class="form-group">
-                        <label class="radio-inline">
-                            <input type="radio" name="gender" id="male" value="1" checked> 靓仔
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="gender" id="female" value="0"> 美女
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label for="birth">生日</label>
-                        <div class="input-group date form_date" data-date="" data-date-format="yyyy MM dd" data-link-field="birth" data-link-format="yyyy-mm-dd">
-                            <input name="birth" id="birth" class="form-control" type="text" value="" readonly>
-                            <span class="input-group-addon">
-							<span class="glyphicon glyphicon-remove"></span>
-						</span>
-                            <span class="input-group-addon">
-							<span class="glyphicon glyphicon-calendar"></span>
-						</span>
+                        <label for="sid" class="col-sm-2 control-label">学号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sid" name="sno" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="phone">手机号</label>
-                        <input type="text" class="form-control" id="phone" name="phone" placeholder="请输入手机号码">
+                        <label for="sname" class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="sname" name="sname" placeholder="请输入姓名">
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="photo">上传头像</label>
-                        <input type="file" id="photo" name="photo">
-                        <p class="help-block">请上传jpg或者png格式的文件！</p>
+                        <label class="col-sm-2 control-label">性別</label>
+                        <div class="col-sm-10">
+                            <label class="radio-inline">
+                                <input type="radio" name="gender" id="male" value="1" checked> 靓仔
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="gender" id="female" value="0"> 美女
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-default" onclick="upload();">
-                            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传
-                        </button>
+                        <label for="birth" class="col-sm-2 control-label">生日</label>
+                        <div class="col-sm-10 input-group date form_date" data-date="" data-date-format="yyyy MM dd" data-link-field="birth" data-link-format="yyyy-mm-dd">
+                            <input name="birth" id="birth" class="form-control" type="text" value="" readonly>
+                            <span class="input-group-addon">
+							    <span class="glyphicon glyphicon-remove"></span>
+						    </span>
+                            <span class="input-group-addon">
+							    <span class="glyphicon glyphicon-calendar"></span>
+						    </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="col-sm-2 control-label">手机号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="phone" name="phone" placeholder="请输入手机号码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="photo" class="col-sm-2">上传头像</label>
+                        <div class="col-sm-10">
+                            <input type="file" id="photo" name="photo">
+                            <p class="help-block">请上传jpg或者png格式的文件！</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" onclick="upload();">
+                                <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> 上传
+                            </button>
+                        </div>
                     </div>
                     <div hidden="hidden">
                         <input type="text" name="photoUrl" id="filePath" value="/img/default.png"/>
                     </div>
                     <div class="form-group">
-                        <img width="120" height="120" src="/img/default.png" id="photo2"/>
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <img width="120" height="120" src="/img/default.png" id="photo2"/>
+                        </div>
                     </div>
                 </form>
             </div>
