@@ -264,3 +264,20 @@ function exportData(){
     }
     xhr.send();
 }
+
+function formValidator(){
+    $('#register').bootstrapValidator({
+        submitHandler: function (validator, form, submitButton) {
+            // validator: 表单验证实例对象
+            // form  jq对象  指定表单对象
+            // submitButton  jq对象  指定提交按钮的对象
+            // save();
+            //return false;
+        }
+    }).on("success.form.bv",function(e){
+        // 版本号0.4.5支持
+        // 版本号v0.5.2-dev支持
+        save();
+        return false;
+    });
+}
