@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <mysql.version>5.1.41</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <!--Activiti 启动器版本-->
         <activiti.starter.version>6.0.0</activiti.starter.version>
         <pagehelper.boot.version>1.2.5</pagehelper.boot.version>
